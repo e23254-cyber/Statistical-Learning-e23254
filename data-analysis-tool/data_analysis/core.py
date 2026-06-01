@@ -162,3 +162,13 @@ class DataInspector:
             df_counts = self.df.groupby([col1, col2]).size().reset_index(name='count')
             fig = px.bar(df_counts, x=col1, y='count', color=col2, barmode='group', title=f'{col1} grouped by {col2}')
         fig.show()
+
+    def plot_all_associations_heatmap(self):
+        """Generates an association heatmap for numeric data."""
+        num_df = self.df.select_dtypes(include=['float64', 'int64'])
+        if not num_df.empty:
+            corr = num_df.corr()
+            fig = px.imshow(corr, text_auto=True, title="Data Associations Heatmap")
+            fig.show()
+        else:
+            print("Not enough numeric data for a heatmap.")
